@@ -217,3 +217,8 @@ export const uploadBloodworkImage = async (userId: string, file: File) => {
   const downloadURL = await getDownloadURL(storageRef);
   return downloadURL;
 };
+
+export const saveBloodworkData = async (userId: string, resultData: any) => {
+  // This can be an alias to saveBloodworkResult
+  return saveBloodworkResult(userId, resultData);
+};

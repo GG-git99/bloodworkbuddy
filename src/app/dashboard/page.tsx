@@ -6,7 +6,6 @@ import { useAuth } from '@/lib/contexts/AuthContext';
 import { getMostRecentBloodworkResult } from '@/lib/firebase/firebaseUtils';
 import Navbar from '@/app/components/Navbar';
 import Link from 'next/link';
-import ResultDisplay from '@/app/components/ResultDisplay';
 
 export default function Dashboard() {
   const { user, loading: authLoading } = useAuth();
@@ -89,10 +88,29 @@ export default function Dashboard() {
         </div>
         
         {latestResult ? (
-          <ResultDisplay result={latestResult} />
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-xl font-semibold mb-4">
+              {latestResult.displayDate || new Date(latestResult.timestamp).toLocaleDateString()}
+            </h3>
+            <p className="text-gray-700 mb-4">{latestResult.summary}</p>
+            
+            <div className="mt-4 border-t pt-4">
+              <h4 className="font-medium text-lg mb-2">Biomarkers Summary</h4>
+              <p className="text-gray-600">
+                {latestResult.biomarkers?.length || 0} biomarkers analyzed
+              </p>
+              
+              <Link
+                href={`/result/${latestResult.id}`}
+                className="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                View Full Details
+              </Link>
+            </div>
+          </div>
         ) : (
           <div className="bg-white p-6 text-center rounded-lg shadow">
-            <p className="text-gray-500 mb-4">You don't have any bloodwork analyses yet.</p>
+            <p className="text-gray-500 mb-4">You don&apos;t have any bloodwork analyses yet.</p>
             <Link
               href="/"
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200"
